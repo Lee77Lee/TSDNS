@@ -2,7 +2,7 @@ import argparse
 from flask import Flask, jsonify, request, make_response
 import csv
 import io
-
+import random
 
 app = Flask(__name__)
 
@@ -45,6 +45,8 @@ default_result = generate_default_result(args)
 #     ],
 #     "message": None,
 # }
+# 假设您有一个配置列表config_list，其中包含您想要随机写入csv文件的数字或其他值
+risk_type = ['1', '2', '3', '4', '5']
 
 # 测试桩接口
 @app.route('/test/search/cases/reputation', methods=['GET'])
@@ -67,7 +69,9 @@ def test_download():
     # 将非空域名列表写入CSV内容
     for domain in domains:
         if domain:  # 判断域名是否为空
-            csv_writer.writerow([domain,  '2'])
+            # csv_writer.writerow([domain,  '2'])
+            selected_risk_type = random.choice(risk_type)
+            csv_writer.writerow([domain, selected_risk_type])
 
     # 将CSV内容转换为字节串并设置响应头
     csv_data.seek(0)  # 回到文件起始位置
